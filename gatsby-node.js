@@ -1,3 +1,10 @@
+const path = require("path")
+// const fs = require("fs")
+const fs = require("fs-extra")
+const _ = require(`lodash`)
+const { createFilePath } = require(`gatsby-source-filesystem`)
+// const { paginate } = require(`gatsby-awesome-pagination`)
+
 // dsg function that came with starter
 exports.createPages = async ({ actions }) => {
   const { createPage } = actions
@@ -17,9 +24,9 @@ exports.createPages = async ({ actions }) => {
  * See: https://www.gatsbyjs.org/docs/node-apis/
  */
 
-const path = require(`path`)
-const _ = require(`lodash`)
-const { createFilePath } = require(`gatsby-source-filesystem`)
+// const path = require(`path`)
+// const _ = require(`lodash`)
+// const { createFilePath } = require(`gatsby-source-filesystem`)
 // const { paginate } = require(`gatsby-awesome-pagination`)
 
 /**
@@ -120,4 +127,27 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
   //       context: { subject: fieldValue },
   //     })
   //   })
+}
+
+// to move built files from gatsby build dir (public) to craft web/public dir
+//https://stackoverflow.com/questions/63276158/i-want-to-gatsby-build-and-deploy-to-a-subdirectory
+//https://stackoverflow.com/questions/13786160/copy-folder-recursively-in-node-js
+// const path = require("path")
+// const fs = require("fs")
+
+exports.onPostBuild = function () {
+  // Include the fs-extra package
+  // var fs = require("fs-extra");
+
+  var source = "public"
+  var destination = "../web"
+
+  // Copy the source folder to the destination
+  fs.copy(source, destination, function (err) {
+    if (err) {
+      console.log("An error occurred while copying the folder.")
+      return console.error(err)
+    }
+    console.log("Copy completed!")
+  })
 }
